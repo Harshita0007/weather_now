@@ -313,7 +313,7 @@ const WeatherApp = () => {
         ]
       },
       condition: {
-        title: 'Weather Details',
+        title: 'Weather Condition Details',
         icon: <Activity className="w-12 h-12 text-blue-400" />,
         mainValue: getWeatherDescription(weather.weather_code),
         description: 'Current weather conditions',
@@ -428,116 +428,119 @@ const WeatherApp = () => {
         )}
 
         {weather && (
-          <div className="space-y-6 animate-fade-in">
-            {/* Current Weather Card */}
-            <div className="bg-white/15 backdrop-blur-xl rounded-3xl p-6 sm:p-10 md:p-12 text-white shadow-2xl border border-white/20">
-              <div className="text-center mb-8">
-                <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-3 drop-shadow-lg">
-                  {weather.cityName}
-                </h2>
-                <p className="text-white/90 text-xl sm:text-2xl font-medium">{weather.country}</p>
+          <div className="space-y-4 sm:space-y-6 animate-fade-in">
+            {/* Current Weather Card - Compact */}
+            <div className="bg-white/15 backdrop-blur-xl rounded-3xl p-4 sm:p-6 md:p-8 text-white shadow-2xl border border-white/20">
+              <div className="grid md:grid-cols-2 gap-6">
+                {/* Left: Main Weather Info */}
+                <div className="text-center md:text-left">
+                  <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-2 drop-shadow-lg">
+                    {weather.cityName}
+                  </h2>
+                  <p className="text-white/90 text-lg sm:text-xl font-medium mb-4">{weather.country}</p>
+
+                  <div className="flex flex-col md:flex-row items-center md:items-start gap-4">
+                    <div className="transform hover:scale-110 transition-transform duration-300">
+                      {getWeatherIcon(weather.weather_code, "w-20 h-20 sm:w-24 sm:h-24")}
+                    </div>
+                    <div>
+                      <div className="text-6xl sm:text-7xl font-bold mb-2 drop-shadow-2xl">
+                        {Math.round(weather.temperature_2m)}°C
+                      </div>
+                      <div className="text-xl sm:text-2xl text-white/95 mb-1 font-semibold">
+                        {getWeatherDescription(weather.weather_code)}
+                      </div>
+                      <div className="text-base sm:text-lg text-white/80 font-medium">
+                        Feels like {Math.round(weather.apparent_temperature)}°C
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Right: Weather Stats Grid - Compact */}
+                <div className="grid grid-cols-2 gap-3 sm:gap-4">
+                  <div
+                    onClick={() => setSelectedCard('humidity')}
+                    className="bg-white/10 backdrop-blur-md rounded-2xl p-4 text-center cursor-pointer hover:bg-white/25 active:bg-white/30 transition-all transform hover:scale-105 active:scale-95 border border-white/20 shadow-lg"
+                  >
+                    <Droplets className="w-8 h-8 mx-auto mb-2 text-blue-200" />
+                    <div className="text-2xl sm:text-3xl font-bold mb-1">
+                      {weather.relative_humidity_2m}%
+                    </div>
+                    <div className="text-xs sm:text-sm text-white/80 font-semibold">Humidity</div>
+                  </div>
+
+                  <div
+                    onClick={() => setSelectedCard('wind')}
+                    className="bg-white/10 backdrop-blur-md rounded-2xl p-4 text-center cursor-pointer hover:bg-white/25 active:bg-white/30 transition-all transform hover:scale-105 active:scale-95 border border-white/20 shadow-lg"
+                  >
+                    <Wind className="w-8 h-8 mx-auto mb-2 text-blue-200" />
+                    <div className="text-2xl sm:text-3xl font-bold mb-1">
+                      {Math.round(weather.wind_speed_10m)}
+                    </div>
+                    <div className="text-xs sm:text-sm text-white/80 font-semibold">km/h</div>
+                  </div>
+
+                  <div
+                    onClick={() => setSelectedCard('direction')}
+                    className="bg-white/10 backdrop-blur-md rounded-2xl p-4 text-center cursor-pointer hover:bg-white/25 active:bg-white/30 transition-all transform hover:scale-105 active:scale-95 border border-white/20 shadow-lg"
+                  >
+                    <Gauge className="w-8 h-8 mx-auto mb-2 text-blue-200" />
+                    <div className="text-2xl sm:text-3xl font-bold mb-1">
+                      {weather.wind_direction_10m}°
+                    </div>
+                    <div className="text-xs sm:text-sm text-white/80 font-semibold">Direction</div>
+                  </div>
+
+                  <div
+                    onClick={() => setSelectedCard('condition')}
+                    className="bg-white/10 backdrop-blur-md rounded-2xl p-4 text-center cursor-pointer hover:bg-white/25 active:bg-white/30 transition-all transform hover:scale-105 active:scale-95 border border-white/20 shadow-lg"
+                  >
+                    <Eye className="w-8 h-8 mx-auto mb-2 text-blue-200" />
+                    <div className="text-base sm:text-lg font-bold mb-1 line-clamp-2">
+                      {getWeatherDescription(weather.weather_code)}
+                    </div>
+                    <div className="text-xs sm:text-sm text-white/80 font-semibold">Condition</div>
+                  </div>
+                </div>
               </div>
 
-              <div className="flex flex-col items-center mb-10">
-                <div className="mb-6 transform hover:scale-110 transition-transform duration-300">
-                  {getWeatherIcon(weather.weather_code, "w-24 h-24 sm:w-28 sm:h-28")}
-                </div>
-                <div className="text-7xl sm:text-8xl md:text-9xl font-bold mb-4 drop-shadow-2xl">
-                  {Math.round(weather.temperature_2m)}°C
-                </div>
-                <div className="text-2xl sm:text-3xl md:text-4xl text-white/95 mb-3 font-semibold">
-                  {getWeatherDescription(weather.weather_code)}
-                </div>
-                <div className="text-lg sm:text-xl text-white/80 font-medium">
-                  Feels like {Math.round(weather.apparent_temperature)}°C
-                </div>
-              </div>
-
-              {/* Weather Stats Grid */}
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
-                <div
-                  onClick={() => setSelectedCard('humidity')}
-                  className="bg-white/10 backdrop-blur-md rounded-2xl p-5 sm:p-7 text-center cursor-pointer hover:bg-white/25 active:bg-white/30 transition-all transform hover:scale-105 active:scale-95 border border-white/20 shadow-lg"
-                >
-                  <Droplets className="w-10 h-10 sm:w-12 sm:h-12 mx-auto mb-3 text-blue-200" />
-                  <div className="text-3xl sm:text-4xl font-bold mb-2">
-                    {weather.relative_humidity_2m}%
-                  </div>
-                  <div className="text-sm sm:text-base text-white/80 font-semibold">Humidity</div>
-                </div>
-
-                <div
-                  onClick={() => setSelectedCard('wind')}
-                  className="bg-white/10 backdrop-blur-md rounded-2xl p-5 sm:p-7 text-center cursor-pointer hover:bg-white/25 active:bg-white/30 transition-all transform hover:scale-105 active:scale-95 border border-white/20 shadow-lg"
-                >
-                  <Wind className="w-10 h-10 sm:w-12 sm:h-12 mx-auto mb-3 text-blue-200" />
-                  <div className="text-3xl sm:text-4xl font-bold mb-2">
-                    {Math.round(weather.wind_speed_10m)}
-                  </div>
-                  <div className="text-sm sm:text-base text-white/80 font-semibold">km/h</div>
-                </div>
-
-                <div
-                  onClick={() => setSelectedCard('direction')}
-                  className="bg-white/10 backdrop-blur-md rounded-2xl p-5 sm:p-7 text-center cursor-pointer hover:bg-white/25 active:bg-white/30 transition-all transform hover:scale-105 active:scale-95 border border-white/20 shadow-lg"
-                >
-                  <Gauge className="w-10 h-10 sm:w-12 sm:h-12 mx-auto mb-3 text-blue-200" />
-                  <div className="text-3xl sm:text-4xl font-bold mb-2">
-                    {weather.wind_direction_10m}°
-                  </div>
-                  <div className="text-sm sm:text-base text-white/80 font-semibold">Direction</div>
-                </div>
-
-                <div
-                  onClick={() => setSelectedCard('condition')}
-                  className="bg-white/10 backdrop-blur-md rounded-2xl p-5 sm:p-7 text-center cursor-pointer hover:bg-white/25 active:bg-white/30 transition-all transform hover:scale-105 active:scale-95 border border-white/20 shadow-lg"
-                >
-                  <Eye className="w-10 h-10 sm:w-12 sm:h-12 mx-auto mb-3 text-blue-200" />
-                  <div className="text-xl sm:text-2xl font-bold mb-2 line-clamp-2">
-                    {getWeatherDescription(weather.weather_code)}
-                  </div>
-                  <div className="text-sm sm:text-base text-white/80 font-semibold">Condition</div>
-                </div>
-              </div>
-
-              <div className="text-center mt-8 text-white/70 text-sm font-medium">
+              <div className="text-center mt-4 text-white/70 text-xs font-medium">
                 Last updated: {new Date(weather.time).toLocaleString()}
               </div>
             </div>
 
-            {/* 7-Day Forecast */}
+            {/* 7-Day Forecast - More Compact */}
             {forecast && forecast.length > 0 && (
-              <div className="bg-white/15 backdrop-blur-xl rounded-3xl p-6 sm:p-10 text-white shadow-2xl border border-white/20">
-                <div className="flex items-center gap-3 mb-8">
-                  <Calendar className="w-7 h-7 text-white" />
-                  <h3 className="text-3xl sm:text-4xl font-bold">7-Day Forecast</h3>
+              <div className="bg-white/15 backdrop-blur-xl rounded-3xl p-4 sm:p-6 text-white shadow-2xl border border-white/20">
+                <div className="flex items-center gap-2 mb-4">
+                  <Calendar className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+                  <h3 className="text-xl sm:text-2xl md:text-3xl font-bold">7-Day Forecast</h3>
                 </div>
 
-                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7 gap-4">
+                <div className="grid grid-cols-7 gap-2 sm:gap-3">
                   {forecast.map((day, index) => (
                     <div
                       key={index}
                       onClick={() => setSelectedDay(day)}
-                      className="bg-white/10 backdrop-blur-md rounded-2xl p-5 text-center cursor-pointer hover:bg-white/25 active:bg-white/30 transition-all transform hover:scale-105 active:scale-95 border border-white/20 shadow-lg"
+                      className="bg-white/10 backdrop-blur-md rounded-xl sm:rounded-2xl p-2 sm:p-3 text-center cursor-pointer hover:bg-white/25 active:bg-white/30 transition-all transform hover:scale-105 active:scale-95 border border-white/20 shadow-lg"
                     >
-                      <div className="font-bold text-base sm:text-lg mb-3">
-                        {getShortDayName(day.date)}
+                      <div className="font-bold text-xs sm:text-sm mb-2">
+                        {getShortDayName(day.date).slice(0, 3)}
                       </div>
-                      <div className="mb-4 flex justify-center transform hover:scale-110 transition-transform">
-                        {getWeatherIcon(day.weatherCode, "w-12 h-12")}
+                      <div className="mb-2 flex justify-center transform hover:scale-110 transition-transform">
+                        {getWeatherIcon(day.weatherCode, "w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10")}
                       </div>
-                      <div className="space-y-2">
-                        <div className="flex items-center justify-center gap-1 text-2xl font-bold">
-                          <TrendingUp className="w-4 h-4 text-red-300" />
+                      <div className="space-y-1">
+                        <div className="text-base sm:text-lg md:text-xl font-bold">
                           {Math.round(day.maxTemp)}°
                         </div>
-                        <div className="flex items-center justify-center gap-1 text-lg text-white/80">
-                          <TrendingDown className="w-4 h-4 text-blue-300" />
+                        <div className="text-xs sm:text-sm text-white/80">
                           {Math.round(day.minTemp)}°
                         </div>
                       </div>
                       {day.precipitation > 0 && (
-                        <div className="mt-3 text-sm text-blue-200 font-medium">
+                        <div className="mt-1 text-xs text-blue-200">
                           💧 {day.precipitation}%
                         </div>
                       )}
@@ -566,7 +569,7 @@ const WeatherApp = () => {
 
         {/* Footer */}
         <div className="text-center mt-12 text-white/70 text-sm font-medium">
-          <p className="mt-2">Built for People, the Outdoor Enthusiast 🏔️</p>
+          <p className="mt-2">Built for Jamie, the Outdoor Enthusiast 🏔️</p>
         </div>
       </div>
 
