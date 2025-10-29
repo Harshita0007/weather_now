@@ -32,34 +32,7 @@ A responsive weather application built for Jamie, the Outdoor Enthusiast. Get re
 - **State Management**: React useState hooks
 - **Build Tool**: Vite
 
-## Installation & Setup
 
-### Prerequisites
-- Node.js (v16 or higher)
-- npm or yarn
-
-### Steps
-
-1. **Clone the repository**
-   ```bash
-   git clone <your-repo-url>
-   cd weather-now
-   ```
-
-2. **Install dependencies**
-   ```bash
-   npm install
-   ```
-
-3. **Start the development server**
-   ```bash
-   npm run dev
-   ```
-
-4. **Open your browser**
-   ```
-   Navigate to http://localhost:5173
-   ```
 
 ##  Project Structure
 
